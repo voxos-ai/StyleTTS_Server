@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
     yield
     del tts
     if torch.cuda.is_available():
-        torch.cuda.caching_allocator_delete()
+        torch.cuda.empty_cache()
 app = FastAPI(lifespan=lifespan)
 
 @app.get("/heartbeat")
@@ -51,4 +51,4 @@ def audio_to_text(response:end_user_request):
     return {'audio': b64encode(file.read()).decode()}
     
 if __name__ == "__main__":
-    uvicorn.run("main:app",port=PORT,reload=True)
+    uvicorn.run("main:app",port=PORT,host='0.0.0.0',reload=True)
