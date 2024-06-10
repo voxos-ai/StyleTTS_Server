@@ -1,0 +1,9 @@
+FROM python:3.10.13-slim
+
+WORKDIR /app
+RUN apt-get -y update && apt-get -y upgrade
+RUN RUN apt-get -y install git build-essential
+RUN git clone 
+RUN cp -a StyleTTS_Server/. . 
+EXPOSE 8700
+CMD ["python3","main.py"]
