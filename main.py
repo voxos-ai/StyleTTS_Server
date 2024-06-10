@@ -10,6 +10,7 @@ import time
 import io
 from scipy.io.wavfile import write
 from base64 import b64encode
+import torchaudio.transforms as T
 
 tts:TTS = None
 logger = configure_logger(__name__)
@@ -44,8 +45,11 @@ def audio_to_text(response:end_user_request):
     logger.info(f"start processing text of size {len(response.text)} with following config")
     logger.info(f"voice_id: {response.voice_id}, alpha: {response.alpha}, beta: {response.beta}, diffusion step: {response.diffusion_steps}, embedding scale: {response.embedding_scale}")
     audio = tts.text_to_audio(response.text,response.voice_id,response.alpha,response.beta,response.diffusion_steps,response.embedding_scale)
+    resampler = T.Resample(RATE, response.rate, dtype=audio.dtype)
+    audio = resampler(audio)
+    audio = audio.numpy()[..., :-50]
     file = io.BytesIO()
-    write(file,RATE,audio)
+    write(file,response.rate,audio)
     file.seek(0)
     logger.info(f"audio is created in {time.time() - prev}")
     return {'audio': b64encode(file.read()).decode()}

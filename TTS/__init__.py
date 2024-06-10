@@ -91,6 +91,6 @@ class TTS(StyleTTS2):
             out = self.model.decoder(asr,
                                      F0_pred, N_pred, ref.squeeze().unsqueeze(0))
 
-        output = out.squeeze().cpu().numpy()[..., :-50] # weird pulse at the end of the model, need to be fixed later
+        output = out.squeeze().cpu() # weird pulse at the end of the model, need to be fixed later
         
         return output
