@@ -71,4 +71,6 @@ json_data = {
 ```
 <b>note: if you add new voice at the time server is on then restart the server</b>
 
+### [Audio Sample](./sample/audio.wav)
+
 `FOR SINGLE WORD MODEL CREATE WEIRD SOUND`
