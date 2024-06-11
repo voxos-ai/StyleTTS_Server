@@ -19,7 +19,7 @@ import time
 prev = time.time()
 response = requests.post('http://127.0.0.1:8700/tts', headers=headers, json=json_data)
 response = json.loads(response.text)
-print(time.time())
+print(time.time() - prev)
 with open("audio.wav",'wb') as file:
     file.write(b64decode(response['audio']))
 
